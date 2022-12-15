@@ -1,0 +1,18 @@
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  > header {
+    display: flex;
+    flex-shrink: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  > main {
+    flex-grow: 1;
+  }
+  > footer {
+    flex-shrink: 0;
+  }
+}
