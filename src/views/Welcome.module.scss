@@ -2,15 +2,26 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  background-image: linear-gradient(to bottom, #5d33be 0%, #8e4bd7 100%);
   > header {
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-top: 66px;
+    > h1 {
+      color: #d4d4ee;
+    }
+    > img {
+      width: 64px;
+      height: 68.97px;
+    }
   }
   > main {
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
   }
   > footer {
     flex-shrink: 0;

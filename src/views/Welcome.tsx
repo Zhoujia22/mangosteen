@@ -14,7 +14,6 @@ export const Welcome = defineComponent({
         <main>
           <RouterView></RouterView>
         </main>
-        <footer>页脚</footer>
       </div>
     );
   },
