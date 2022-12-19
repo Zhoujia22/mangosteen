@@ -49,6 +49,10 @@ export const useSwipe = (element: Ref<HTMLElement | null>) => {
     });
     element.value?.addEventListener("touchend", (e) => {
       swiping.value = false;
+<<<<<<< HEAD
+=======
+      (end.value = undefined), (start.value = undefined);
+>>>>>>> 67fff9e (添加useSwipe)
     });
   });
   return { direction, distance, swiping, start, end };
