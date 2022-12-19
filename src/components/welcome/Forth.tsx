@@ -3,7 +3,7 @@ import cloud from "../../assets/icons/cloud.svg";
 import s from "./WelcomeLayout.module.scss";
 import { WelcomeLayout } from "./WelcomeLayout";
 
-export const Fourth = () => {
+export const Forth = () => {
   return (
     <WelcomeLayout>
       {{
@@ -31,4 +31,4 @@ export const Fourth = () => {
   );
 };
 
-Fourth.displayName = "Fourth";
+Forth.displayName = "Forth";
