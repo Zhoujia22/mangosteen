@@ -1,5 +1,7 @@
+import { FunctionalComponent } from 'vue';
 import s from './welcome.module.scss';
-export const Third = () => {
+
+export const Third:FunctionalComponent = () => {
   return (
     <div class={s.card}>
       <svg>
