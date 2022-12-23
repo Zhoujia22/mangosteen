@@ -5,9 +5,10 @@ export const Icon = defineComponent({
   props: {
     name: {
       type: String as PropType<string>,
+      required: true,
     },
   },
-  setup: (props, context) => {                                  
+  setup: (props, context) => {
     return () => (
       <svg class={s.icon}>
         <use xlinkHref={"#" + props.name}></use>
