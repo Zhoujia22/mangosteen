@@ -25,14 +25,14 @@ export const Welcome = defineComponent({
       beforeStart: (e) => e.preventDefault(),
     });
 
-    const push = throttle(() => {
+    const replace = throttle(() => {
       const name = (route.name || "Welcome1").toString();
-      router.push(pushMap[name]);
+      router.replace(pushMap[name]);
     }, 500);
 
     watchEffect(() => {
       if (swiping.value && direction.value === "left") {
-        push();
+        replace();
       }
     });
 
