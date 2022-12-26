@@ -40,7 +40,7 @@
   > button {
     border: none;
     font-size: 1.2em;
-    background: var(--button-bg);
+    background: var(--number-button-bg);
     border-radius: 8px;
 
     &:nth-child(1) {
@@ -81,8 +81,8 @@
     }
     &:nth-child(13) {
       grid-area: s;
-      background: var(--button-bg-important);
-      color: var(--button-text-important);
+      background: var(--number-button-bg-important);
+      color: var(--number-button-text-important);
     }
   }
 }
