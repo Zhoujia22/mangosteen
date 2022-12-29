@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from "vue-router";
-import { ItemCreat } from "../components/item/ItemCreat";
+import { ItemCreate } from "../components/item/ItemCreate";
 import { ItemList } from "../components/item/ItemList";
 import { TagCreate } from "../components/tag/TagCreate";
 import { TagEdit } from "../components/tag/TagEdit";
@@ -51,7 +51,7 @@ export const routes: RouteRecordRaw[] = [
     component: ItemPage,
     children: [
       { path: "", component: ItemList },
-      { path: "create", component: ItemCreat },
+      { path: "create", component: ItemCreate },
     ],
   },
   {
