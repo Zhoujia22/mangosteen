@@ -5,4 +5,12 @@
   color: var(--button-text);
   border-radius: var(--button-radius);
   height: var(--button-height);
+  &.important {
+  }
+  &.normal {
+  }
+  &.danger {
+    background: var(--buttom-bg-danger);
+    border: 1px solid var(--buttom-bg-danger);
+  }
 }
