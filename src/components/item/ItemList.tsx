@@ -1,4 +1,5 @@
-import { defineComponent, PropType, reactive, ref } from "vue";
+import { Overlay } from "vant";
+import { defineComponent, PropType, reactive, ref, watchEffect } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
 import { Icon } from "../../shared/Icon";
 import { Tab, Tabs } from "../../shared/Tabs";
@@ -32,38 +33,61 @@ export const ItemList = defineComponent({
         end: time.lastDayOfYear(),
       },
     ];
+
+    const refOverlayVisible = ref(false);
+    watchEffect(() => {
+      if (refSelected.value === "自定义时间") {
+        refOverlayVisible.value = true;
+      }
+    });
     return () => (
       <MainLayout>
         {{
           title: () => "山竹记账",
           icon: () => <Icon name="menu" class={s.navIcon}></Icon>,
           default: () => (
-            <Tabs classPrefix="customTabs" v-model:selected={refSelected.value}>
-              <Tab name="本月">
-                <ItemSummery
-                  startDate={timeList[0].start.format()}
-                  endDate={timeList[0].end.format()}
-                />
-              </Tab>
-              <Tab name="上月">
-                <ItemSummery
-                  startDate={timeList[1].start.format()}
-                  endDate={timeList[1].end.format()}
-                />
-              </Tab>
-              <Tab name="今年">
-                <ItemSummery
-                  startDate={timeList[2].start.format()}
-                  endDate={timeList[2].end.format()}
-                />
-              </Tab>
-              <Tab name="自定义时间">
-                <ItemSummery
-                  startDate={customTime.start.format()}
-                  endDate={customTime.end.format()}
-                />
-              </Tab>
-            </Tabs>
+            <>
+              <Tabs
+                classPrefix="customTabs"
+                v-model:selected={refSelected.value}
+              >
+                <Tab name="本月">
+                  <ItemSummery
+                    startDate={timeList[0].start.format()}
+                    endDate={timeList[0].end.format()}
+                  />
+                </Tab>
+                <Tab name="上月">
+                  <ItemSummery
+                    startDate={timeList[1].start.format()}
+                    endDate={timeList[1].end.format()}
+                  />
+                </Tab>
+                <Tab name="今年">
+                  <ItemSummery
+                    startDate={timeList[2].start.format()}
+                    endDate={timeList[2].end.format()}
+                  />
+                </Tab>
+                <Tab name="自定义时间">
+                  <ItemSummery
+                    startDate={customTime.start.format()}
+                    endDate={customTime.end.format()}
+                  />
+                </Tab>
+              </Tabs>
+              <Overlay show={refOverlayVisible.value} class={s.overlay}>
+                <div class={s.overlay_inner}>
+                  <header>请选择时间</header>
+                  <main>
+                    <form>
+                      <div></div>
+                      <div></div>
+                    </form>
+                  </main>
+                </div>
+              </Overlay>
+            </>
           ),
         }}
       </MainLayout>
