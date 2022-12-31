@@ -1,7 +1,7 @@
 import { defineComponent, PropType } from "vue";
 import { FloatButton } from "../../shared/FloatButton";
 import s from './ItemSummary.module.scss';
-export const ItemSummery = defineComponent({
+export const ItemSummary = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
