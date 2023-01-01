@@ -3,14 +3,15 @@
   padding: 8px 16px;
   background: var(--button-bg);
   color: var(--button-text);
+  font-size: var(--button-font-size);
   border-radius: var(--button-radius);
   height: var(--button-height);
-  &.important {
-  }
   &.normal {
   }
+  &.important {
+  }
   &.danger {
-    background: var(--buttom-bg-danger);
-    border: 1px solid var(--buttom-bg-danger);
+    background: var(--button-bg-danger);
+    border-color: var(--button-bg-danger);
   }
 }
