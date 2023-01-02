@@ -55,17 +55,18 @@ export const FormItem = defineComponent({
     const timer = ref<number>();
     const count = ref<number>(props.countFrom);
     const isCounting = computed(() => !!timer.value);
-    const onClickSendValidationCode = () => {
-      props.onClick?.();
-      timer.value = setInterval(() => {
+    const startCount = () =>
+      (timer.value = setInterval(() => {
         count.value -= 1;
         if (count.value === 0) {
           clearInterval(timer.value);
           timer.value = undefined;
           count.value = props.countFrom;
         }
-      }, 1000);
-    };
+      }, 1000));
+    context.expose({
+      startCount,
+    });
     const content = computed(() => {
       switch (props.type) {
         case "text":
@@ -98,7 +99,7 @@ export const FormItem = defineComponent({
               />
               <Button
                 disabled={isCounting.value}
-                onClick={onClickSendValidationCode}
+                onClick={props.onClick}
                 class={[s.formItem, s.button, s.validationCodeButton]}
               >
                 {isCounting.value ? `${count.value}后重新发送` : "发送验证码"}
