@@ -35,6 +35,9 @@ export const SignInPage = defineComponent({
         ])
       );
     };
+    const onClickSendValidationCode = () => {
+      console.log("1");
+    };
     return () => (
       <MainLayout>
         {{
@@ -60,6 +63,7 @@ export const SignInPage = defineComponent({
                   type="validationCode"
                   v-model={formData.code}
                   error={errors.code?.[0]}
+                  onClick={onClickSendValidationCode}
                 />
                 <FormItem style={{ paddingTop: "32px" }}>
                   <Button>登录</Button>
