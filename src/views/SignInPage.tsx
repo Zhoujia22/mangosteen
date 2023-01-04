@@ -3,13 +3,14 @@ import { defineComponent, PropType, reactive, ref } from "vue";
 import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
+import { http } from "../shared/Http";
 import { Icon } from "../shared/Icon";
 import { validate } from "../shared/validate";
 import s from "./SignInPage.module.scss";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
     const formData = reactive({
-      email: "",
+      email: "827160082@qq.com",
       code: "",
     });
     const errors = reactive({
@@ -38,8 +39,8 @@ export const SignInPage = defineComponent({
       );
     };
     const onClickSendValidationCode = async () => {
-      const response = await axios
-        .post("api/v1/validation_codes", {
+      const response = await http
+        .post("/validation_codes", {
           email: formData.email,
         })
         .catch(() => {});
@@ -71,7 +72,7 @@ export const SignInPage = defineComponent({
                   v-model={formData.code}
                   error={errors.code?.[0]}
                   onClick={onClickSendValidationCode}
-                  countFrom={3}
+                  countFrom={1}
                   ref={refValidationCode}
                 />
                 <FormItem style={{ paddingTop: "32px" }}>
