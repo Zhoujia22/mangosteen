@@ -1,5 +1,5 @@
-import axios from "axios";
-import { defineComponent, PropType, reactive, ref } from "vue";
+import { defineComponent, reactive, ref } from "vue";
+import { useBool } from "../hooks/useBool";
 import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
@@ -18,6 +18,12 @@ export const SignInPage = defineComponent({
       code: [],
     });
     const refValidationCode = ref<any>();
+    const {
+      ref: refDisabled,
+      on: disabled,
+      toggle,
+      off: enabled,
+    } = useBool(false);
     const onSubmit = (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
@@ -38,12 +44,20 @@ export const SignInPage = defineComponent({
         ])
       );
     };
+    const onError = (error: any) => {
+      if (error.response.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+      }
+      throw error;
+    };
     const onClickSendValidationCode = async () => {
+     disabled();
       const response = await http
         .post("/validation_codes", {
           email: formData.email,
         })
-        .catch(() => {});
+        .catch(onError)
+        .finally(enabled);
       refValidationCode.value.startCount();
     };
     return () => (
@@ -72,7 +86,8 @@ export const SignInPage = defineComponent({
                   v-model={formData.code}
                   error={errors.code?.[0]}
                   onClick={onClickSendValidationCode}
-                  countFrom={1}
+                  countFrom={3}
+                  disabled={refDisabled.value}
                   ref={refValidationCode}
                 />
                 <FormItem style={{ paddingTop: "32px" }}>
