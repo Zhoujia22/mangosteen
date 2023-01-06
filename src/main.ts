@@ -10,6 +10,29 @@ const router = createRouter({ history, routes });
 
 fetchMe();
 
+// const whiteList: Record<string, "exact" | "startsWith"> = {
+//   "/": "exact",
+//   "/start": "exact",
+//   "/welcome": "startsWith",
+//   "/sign_in": "startsWith",
+// };
+
+// router.beforeEach((to) => {
+//   for (const key in whiteList) {
+//     const value = whiteList[key];
+//     if (value === "exact" && to.path === key) {
+//       return true;
+//     }
+//     if (value === "startsWith" && to.path === key) {
+//       return true;
+//     }
+//   }
+//   return mePromise!.then(
+//     () => true,
+//     () => "/sign_in?return_to=" + to.path
+//   );
+// });
+
 router.beforeEach(async (to, from) => {
   if (
     to.path === "/" ||
@@ -19,11 +42,10 @@ router.beforeEach(async (to, from) => {
   ) {
     return true;
   } else {
-    const path = await mePromise!.then(
+    return mePromise!.then(
       () => true,
       () => "/sign_in?return_to=" + to.path
     );
-    return path;
   }
 });
 
