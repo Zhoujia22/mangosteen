@@ -3,9 +3,10 @@ import { useBool } from "../hooks/useBool";
 import { MainLayout } from "../layouts/MainLayout";
 import { Button } from "../shared/Button";
 import { Form, FormItem } from "../shared/Form";
+import { history } from "../shared/history";
 import { http } from "../shared/Http";
 import { Icon } from "../shared/Icon";
-import { validate } from "../shared/validate";
+import { hasError, validate } from "../shared/validate";
 import s from "./SignInPage.module.scss";
 export const SignInPage = defineComponent({
   setup: (props, context) => {
@@ -20,11 +21,11 @@ export const SignInPage = defineComponent({
     const refValidationCode = ref<any>();
     const {
       ref: refDisabled,
-      on: disabled,
       toggle,
-      off: enabled,
+      on: disabled,
+      off: enable,
     } = useBool(false);
-    const onSubmit = (e: Event) => {
+    const onSubmit = async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
         email: [],
@@ -38,11 +39,16 @@ export const SignInPage = defineComponent({
             key: "email",
             type: "pattern",
             regex: /.+@.+/,
-            message: "请输入正确的邮箱地址",
+            message: "必须是邮箱地址",
           },
           { key: "code", type: "required", message: "必填" },
         ])
       );
+      if (!hasError(errors)) {
+        const response = await http.post<{ jwt: string }>("/session", formData);
+        localStorage.setItem("jwt", response.data.jwt);
+        history.push('/')
+      }
     };
     const onError = (error: any) => {
       if (error.response.status === 422) {
@@ -51,13 +57,12 @@ export const SignInPage = defineComponent({
       throw error;
     };
     const onClickSendValidationCode = async () => {
-     disabled();
+      disabled();
       const response = await http
-        .post("/validation_codes", {
-          email: formData.email,
-        })
+        .post("/validation_codes", { email: formData.email })
         .catch(onError)
-        .finally(enabled);
+        .finally(enable);
+      // 成功
       refValidationCode.value.startCount();
     };
     return () => (
@@ -71,27 +76,28 @@ export const SignInPage = defineComponent({
                 <Icon class={s.icon} name="mangosteen" />
                 <h1 class={s.appName}>山竹记账</h1>
               </div>
+              <div>{JSON.stringify(formData)}</div>
               <Form onSubmit={onSubmit}>
                 <FormItem
                   label="邮箱地址"
-                  placeholder="请输入邮箱号"
                   type="text"
+                  placeholder="请输入邮箱，然后点击发送验证码"
                   v-model={formData.email}
                   error={errors.email?.[0]}
                 />
                 <FormItem
+                  ref={refValidationCode}
                   label="验证码"
-                  placeholder="请输入验证码"
                   type="validationCode"
+                  placeholder="请输入六位数字"
+                  countFrom={1}
+                  disabled={refDisabled.value}
+                  onClick={onClickSendValidationCode}
                   v-model={formData.code}
                   error={errors.code?.[0]}
-                  onClick={onClickSendValidationCode}
-                  countFrom={3}
-                  disabled={refDisabled.value}
-                  ref={refValidationCode}
                 />
-                <FormItem style={{ paddingTop: "32px" }}>
-                  <Button>登录</Button>
+                <FormItem style={{ paddingTop: "96px" }}>
+                  <Button type="submit">登录</Button>
                 </FormItem>
               </Form>
             </div>

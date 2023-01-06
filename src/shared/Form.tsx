@@ -36,22 +36,14 @@ export const FormItem = defineComponent({
     error: {
       type: String,
     },
-    placeholder: {
-      type: String,
-    },
-    options: {
-      type: Array as PropType<Array<{ value: string; text: string }>>,
-    },
-    onClick: {
-      type: Function as PropType<() => void>,
-    },
+    placeholder: String,
+    options: Array as PropType<Array<{ value: string; text: string }>>,
+    onClick: Function as PropType<() => void>,
     countFrom: {
       type: Number,
       default: 60,
     },
-    disabled: {
-      type: Boolean,
-    },
+    disabled: Boolean,
   },
   emits: ["update:modelValue"],
   setup: (props, context) => {
@@ -68,16 +60,14 @@ export const FormItem = defineComponent({
           count.value = props.countFrom;
         }
       }, 1000));
-    context.expose({
-      startCount,
-    });
+    context.expose({ startCount });
     const content = computed(() => {
       switch (props.type) {
         case "text":
           return (
             <input
-              placeholder={props.placeholder}
               value={props.modelValue}
+              placeholder={props.placeholder}
               onInput={(e: any) =>
                 context.emit("update:modelValue", e.target.value)
               }
@@ -98,15 +88,21 @@ export const FormItem = defineComponent({
           return (
             <>
               <input
-                placeholder={props.placeholder}
                 class={[s.formItem, s.input, s.validationCodeInput]}
+                value={props.modelValue}
+                onInput={(e: any) =>
+                  context.emit("update:modelValue", e.target.value)
+                }
+                placeholder={props.placeholder}
               />
               <Button
                 disabled={isCounting.value || props.disabled}
                 onClick={props.onClick}
                 class={[s.formItem, s.button, s.validationCodeButton]}
               >
-                {isCounting.value ? `${count.value}后重新发送` : "发送验证码"}
+                {isCounting.value
+                  ? `${count.value}秒后可重新发送`
+                  : "发送验证码"}
               </Button>
             </>
           );
@@ -115,9 +111,9 @@ export const FormItem = defineComponent({
             <select
               class={[s.formItem, s.select]}
               value={props.modelValue}
-              onChange={(e: any) =>
-                context.emit("update:modelValue", e.target.value)
-              }
+              onChange={(e: any) => {
+                context.emit("update:modelValue", e.target.value);
+              }}
             >
               {props.options?.map((option) => (
                 <option value={option.value}>{option.text}</option>
@@ -128,9 +124,9 @@ export const FormItem = defineComponent({
           return (
             <>
               <input
-                placeholder={props.placeholder}
                 readonly={true}
                 value={props.modelValue}
+                placeholder={props.placeholder}
                 onClick={() => {
                   refDateVisible.value = true;
                 }}
