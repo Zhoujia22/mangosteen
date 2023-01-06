@@ -1,12 +1,32 @@
-import { routes } from './config/routes';
-import { createApp } from 'vue'
-import { App } from './App'
-import { createRouter } from 'vue-router'
-import { history } from './shared/history';
-import '@svgstore';
+import "@svgstore";
+import { createApp } from "vue";
+import { createRouter } from "vue-router";
+import { App } from "./App";
+import { routes } from "./config/routes";
+import { history } from "./shared/history";
+import { fetchMe, mePromise } from "./shared/me";
 
-const router = createRouter({ history, routes })
+const router = createRouter({ history, routes });
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+fetchMe();
+
+router.beforeEach(async (to, from) => {
+  if (
+    to.path === "/" ||
+    to.path.startsWith("/welcome") ||
+    to.path.startsWith("/sign_in") ||
+    to.path === "/start"
+  ) {
+    return true;
+  } else {
+    const path = await mePromise!.then(
+      () => true,
+      () => "/sign_in?return_to=" + to.path
+    );
+    return path;
+  }
+});
+
+const app = createApp(App);
+app.use(router);
+app.mount("#app");
