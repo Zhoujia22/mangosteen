@@ -1,4 +1,9 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from "axios";
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+} from "axios";
 type JSONValue =
   | string
   | number
@@ -14,6 +19,7 @@ export class Http {
       baseURL,
     });
   }
+  // read
   get<R = unknown>(
     url: string,
     query?: Record<string, string>,
@@ -59,6 +65,14 @@ export class Http {
 
 export const http = new Http("/api/v1");
 
+http.instance.interceptors.request.use((config) => {
+  const jwt = localStorage.getItem("jwt");
+  if (jwt) {
+    config.headers!.Authorization = `Bearer ${jwt}`
+  }
+  return config;
+});
+
 http.instance.interceptors.response.use(
   (response) => {
     return response;
@@ -67,7 +81,7 @@ http.instance.interceptors.response.use(
     if (error.response) {
       const axiosError = error as AxiosError;
       if (axiosError.response?.status === 429) {
-        alert("请求太频繁");
+        alert("你太频繁了");
       }
     }
     throw error;
