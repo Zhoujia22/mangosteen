@@ -22,12 +22,7 @@ export const SignInPage = defineComponent({
       code: [],
     });
     const refValidationCode = ref<any>();
-    const {
-      ref: refDisabled,
-      toggle,
-      on: disabled,
-      off: enable,
-    } = useBool(false);
+    const { ref: refDisabled, on: disabled, off: enable } = useBool(false);
     const router = useRouter();
     const route = useRoute();
     const onSubmit = async (e: Event) => {
