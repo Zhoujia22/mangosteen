@@ -3,12 +3,7 @@ import { faker } from "@faker-js/faker";
 faker.setLocale("zh_CN");
 
 export const mockSession: Mock = (config) => {
-  return [
-    200,
-    {
-      jwt: faker.random.word(),
-    },
-  ];
+  return [200, { jwt: faker.random.word() }];
 };
 
 export const mockTagIndex: Mock = (config) => {
@@ -38,11 +33,13 @@ export const mockTagIndex: Mock = (config) => {
     pager: createPaper(page),
     ...attrs,
   });
-  if (kind === "expenses" && (page === 1 || !page)) {
+  if (kind === "expenses" && (!page || page === 1)) {
     return [200, createBody(25)];
   } else if (kind === "expenses" && page === 2) {
     return [200, createBody(1)];
+  } else if (kind === "income" && (!page || page === 1)) {
+    return [200, { resources: createTag(25) }];
   } else {
-    return [200, { resources: createTag(20) }];
+    return [200, createBody(1)];
   }
 };
