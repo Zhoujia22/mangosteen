@@ -13,11 +13,6 @@
   &.button {
     width: 100%;
   }
-  &.select {
-    border: 1px solid var(--input-border-color);
-    border-radius: var(--input-radius);
-    padding: 0 8px;
-  }
   &.input {
     flex-grow: 1;
     border: 1px solid var(--input-border-color);
@@ -31,9 +26,14 @@
       border-color: var(--error-color);
     }
   }
+  &.select{
+    border: 1px solid var(--input-border-color);
+    border-radius: var(--input-radius);
+    padding: 0 8px;
+  }
   &.validationCodeInput {
-    width: 8em;
     flex-grow: 0;
+    width: 9em;
   }
   &.validationCodeButton {
     margin-left: 16px;

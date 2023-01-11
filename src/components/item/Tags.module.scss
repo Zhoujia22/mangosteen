@@ -1,11 +1,12 @@
+
+.more{
+  padding: 16px;
+  text-align: center;
+}
 .tags_wrapper {
   display: flex;
   flex-wrap: wrap;
   padding-top: 16px;
-}
-.more {
-  padding: 16px;
-  text-align: center;
 }
 .tag {
   position: relative;
@@ -33,7 +34,4 @@
       border-color: var(--main);
     }
   }
-}
-.createTag {
-  fill: var(--main);
 }

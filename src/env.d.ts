@@ -14,14 +14,21 @@ type JSONValue =
   | number
   | JSONValue[]
   | Record<string, JSONValue>;
-type Mock = (config: AxiosRequestConfig) => [number, any];
 
 type Tag = {
   id: number;
   user_id: number;
   name: string;
   sign: string;
-  kind: "income" | "expenses";
+  kind: expenses | income;
+};
+type Item = {
+  id: number;
+  user_id: number;
+  amount: number;
+  tags_id: number[];
+  happen_at: string;
+  kind: expenses | income;
 };
 
 type Resources<T = any> = {
@@ -31,4 +38,12 @@ type Resources<T = any> = {
     per_page: number;
     count: number;
   };
+};
+
+type Resource<T> = {
+  resource: T;
+};
+
+type ResourceError = {
+  errors: Record<string, string[]>;
 };
