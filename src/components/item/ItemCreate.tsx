@@ -1,13 +1,11 @@
 import { AxiosError } from 'axios';
 import { Dialog } from 'vant';
-import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
+import { defineComponent, PropType, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { MainLayout } from '../../layouts/MainLayout';
-import { Button } from '../../shared/Button';
+import { BackIcon } from '../../shared/BackIcon';
 import { http } from '../../shared/Http';
-import { Icon } from '../../shared/Icon';
-import { Tabs, Tab } from '../../shared/Tabs';
-import { useTags } from '../../shared/useTags';
+import { Tab, Tabs } from '../../shared/Tabs';
 import { InputPad } from './InputPad';
 import s from './ItemCreate.module.scss';
 import { Tags } from './Tags';
@@ -46,7 +44,7 @@ export const ItemCreate = defineComponent({
       <MainLayout class={s.layout}>
         {{
           title: () => '记一笔',
-          icon: () => <Icon name="left" class={s.navIcon} />,
+          icon: () => <BackIcon />,
           default: () => (
             <>
               <div class={s.wrapper}>
