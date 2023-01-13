@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, PropType, ref } from 'vue';
+import { defineComponent, onMounted, PropType, reactive, ref } from 'vue';
 import { Button } from '../../shared/Button';
 import { Datetime } from '../../shared/Datetime';
 import { FloatButton } from '../../shared/FloatButton';
@@ -20,9 +20,8 @@ export const ItemSummary = defineComponent({
     const items = ref<Item[]>([]);
     const hasMore = ref(false);
     const page = ref(0);
-
     const fetchItems = async () => {
-      if (!props.endDate || !props.endDate) {
+      if (!props.startDate || !props.endDate) {
         return;
       }
       const response = await http.get<Resources<Item>>('/items', {
@@ -32,12 +31,29 @@ export const ItemSummary = defineComponent({
         _mock: 'itemIndex',
       });
       const { resources, pager } = response.data;
-      items.value.push(...resources);
+      items.value?.push(...resources);
       hasMore.value =
         (pager.page - 1) * pager.per_page + resources.length < pager.count;
       page.value += 1;
     };
     onMounted(fetchItems);
+    const itemsBalance = reactive({
+      expenses: 0,
+      income: 0,
+      balance: 0,
+    });
+    onMounted(async () => {
+      if (!props.startDate || !props.endDate) {
+        return;
+      }
+      const response = await http.get('/items/balance', {
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1,
+        _mock: 'itemIndexBalance',
+      });
+      Object.assign(itemsBalance, response.data);
+    });
     return () => (
       <div class={s.wrapper}>
         {items.value ? (
@@ -45,15 +61,15 @@ export const ItemSummary = defineComponent({
             <ul class={s.total}>
               <li>
                 <span>收入</span>
-                <span>128</span>
+                <Money value={itemsBalance.income} />
               </li>
               <li>
                 <span>支出</span>
-                <span>99</span>
+                <Money value={itemsBalance.expenses} />
               </li>
               <li>
                 <span>净收入</span>
-                <span>39</span>
+                <Money value={itemsBalance.balance} />
               </li>
             </ul>
             <ol class={s.list}>
