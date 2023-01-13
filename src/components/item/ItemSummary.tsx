@@ -1,17 +1,19 @@
 import { defineComponent, onMounted, PropType, ref } from 'vue';
 import { Button } from '../../shared/Button';
+import { Datetime } from '../../shared/Datetime';
 import { FloatButton } from '../../shared/FloatButton';
 import { http } from '../../shared/Http';
+import { Money } from '../../shared/Money';
 import s from './ItemSummary.module.scss';
 export const ItemSummary = defineComponent({
   props: {
     startDate: {
       type: String as PropType<string>,
-      required: true,
+      required: false,
     },
     endDate: {
       type: String as PropType<string>,
-      required: true,
+      required: false,
     },
   },
   setup: (props, context) => {
@@ -20,6 +22,9 @@ export const ItemSummary = defineComponent({
     const page = ref(0);
 
     const fetchItems = async () => {
+      if (!props.endDate || !props.endDate) {
+        return;
+      }
       const response = await http.get<Resources<Item>>('/items', {
         happen_after: props.startDate,
         happen_before: props.endDate,
@@ -61,10 +66,12 @@ export const ItemSummary = defineComponent({
                     <div class={s.tagAndAmount}>
                       <span class={s.tag}>{item.tags_id[0]}</span>
                       <span class={s.amount}>
-                        ￥<>{item.amount}</>
+                        ￥<Money value={item.amount} />
                       </span>
                     </div>
-                    <div class={s.time}>{item.happen_at}</div>
+                    <div class={s.time}>
+                      <Datetime value={item.happen_at} />
+                    </div>
                   </div>
                 </li>
               ))}
