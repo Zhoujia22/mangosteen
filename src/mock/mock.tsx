@@ -5,6 +5,20 @@ type Mock = (config: AxiosRequestConfig) => [number, any];
 
 faker.setLocale('zh_CN');
 
+export const mockItemSummary: Mock = (config) => {
+  return [
+    200,
+    {
+      groups: [
+        { happen_at: '2018-06-18T00:00:00.000+0800', amount: 100 },
+        { happen_at: '2018-06-22T00:00:00.000+0800', amount: 300 },
+        { happen_at: '2018-06-29T00:00:00.000+0800', amount: 200 },
+      ],
+      summary: 600,
+    },
+  ];
+};
+
 export const mockItemIndexBalance: Mock = (config) => {
   return [
     200,
@@ -24,14 +38,13 @@ export const mockItemIndex: Mock = (config) => {
     per_page,
     count,
   });
-  const createTag = (attrs?: any) =>
-    ({
-      id: createId(),
-      name: faker.lorem.word(),
-      sign: faker.internet.emoji(),
-      kind: 'expenses',
-      ...attrs
-    })
+  const createTag = (attrs?: any) => ({
+    id: createId(),
+    name: faker.lorem.word(),
+    sign: faker.internet.emoji(),
+    kind: 'expenses',
+    ...attrs,
+  });
   const createItem = (n = 1, attrs?: any) =>
     Array.from({ length: n }).map(() => ({
       id: createId(),
