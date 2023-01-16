@@ -78,10 +78,10 @@ export const TimeTabsLayout = defineComponent({
             <>
               {props.hideThisYear ? (
                 <Tabs
-                  rerenderOnSelect={props.rerenderOnSwitchTab}
                   classPrefix="customTabs"
                   v-model:selected={refSelected.value}
                   onUpdate:selected={onSelect}
+                  rerenderOnSelect={props.rerenderOnSwitchTab}
                 >
                   <Tab name="本月">
                     <props.component
@@ -89,10 +89,10 @@ export const TimeTabsLayout = defineComponent({
                       endDate={timeList[0].end.format()}
                     />
                   </Tab>
-                  <Tab name="今年">
+                  <Tab name="上月">
                     <props.component
-                      startDate={timeList[2].start.format()}
-                      endDate={timeList[2].end.format()}
+                      startDate={timeList[1].start.format()}
+                      endDate={timeList[1].end.format()}
                     />
                   </Tab>
                   <Tab name="自定义时间">
@@ -104,10 +104,10 @@ export const TimeTabsLayout = defineComponent({
                 </Tabs>
               ) : (
                 <Tabs
-                  rerenderOnSelect={props.rerenderOnSwitchTab}
                   classPrefix="customTabs"
                   v-model:selected={refSelected.value}
                   onUpdate:selected={onSelect}
+                  rerenderOnSelect={props.rerenderOnSwitchTab}
                 >
                   <Tab name="本月">
                     <props.component
@@ -121,10 +121,10 @@ export const TimeTabsLayout = defineComponent({
                       endDate={timeList[1].end.format()}
                     />
                   </Tab>
-                  <Tab name="上月">
+                  <Tab name="今年">
                     <props.component
-                      startDate={timeList[1].start.format()}
-                      endDate={timeList[1].end.format()}
+                      startDate={timeList[2].start.format()}
+                      endDate={timeList[2].end.format()}
                     />
                   </Tab>
                   <Tab name="自定义时间">

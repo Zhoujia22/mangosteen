@@ -61,16 +61,30 @@ export const Charts = defineComponent({
       data1.value = response.data.groups;
     });
 
-    //data2
-
     const data2 = ref<Data2>([]);
+    const betterData2 = computed<{ name: string; value: number }[]>(() =>
+      data2.value.map((item) => ({
+        name: item.tag.name,
+        value: item.amount,
+      }))
+    );
+
+    const betterData3 = computed<
+      { tag: Tag; amount: number; percent: number }[]
+    >(() => {
+      const total = data2.value.reduce((sum, item) => sum + item.amount, 0);
+      return data2.value.map((item) => ({
+        ...item,
+        percent: Math.round((item.amount / total) * 100),
+      }));
+    });
 
     onMounted(async () => {
       const response = await http.get<{ groups: Data2; summary: number }>(
         '/items/summary',
         {
-          happened_after: props.startDate,
-          happened_before: props.endDate,
+          happen_after: props.startDate,
+          happen_before: props.endDate,
           kind: kind.value,
           group_by: 'tag_id',
           _mock: 'itemSummary',
@@ -78,12 +92,6 @@ export const Charts = defineComponent({
       );
       data2.value = response.data.groups;
     });
-    const betterData2 = computed<{ name: string; value: number }[]>(() =>
-      data2.value.map((item) => ({
-        name: item.tag.name,
-        value: item.amount,
-      }))
-    );
 
     return () => (
       <div class={s.wrapper}>
@@ -98,7 +106,7 @@ export const Charts = defineComponent({
         />
         <LineChart data={betterData1.value} />
         <PieChart data={betterData2.value} />
-        <Bars />
+        <Bars data={betterData3.value} />
       </div>
     );
   },

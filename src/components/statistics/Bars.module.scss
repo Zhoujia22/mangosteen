@@ -39,8 +39,10 @@
       position: absolute;
       top: 0;
       left: 0;
+      width: 0;
       height: 100%;
-      width: 42px;
+      border-radius: 4px;
+      animation: load 1s ease;
     }
   }
   &:nth-child(1) {
@@ -57,5 +59,14 @@
     .bar_inner {
       background: #91cc75;
     }
+  }
+}
+@keyframes load {
+  0% {
+    width: 0%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }

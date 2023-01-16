@@ -16,7 +16,7 @@ const defaultOption = {
     {
       name: 'Access From',
       type: 'pie',
-      radius: '50%',
+      radius: '70%',
       emphasis: {
         itemStyle: {
           shadowBlur: 10,
