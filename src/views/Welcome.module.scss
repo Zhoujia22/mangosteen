@@ -2,8 +2,13 @@
   height: calc(100vh - var(--welcome-nav-height));
   display: flex;
   flex-direction: column;
-  background-image: linear-gradient(to bottom, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
+  background-image: linear-gradient(
+    to bottom,
+    var(--welcome-bg-start) 0%,
+    var(--welcome-bg-end) 100%
+  );
   margin-bottom: var(--welcome-nav-height);
+
   > header {
     flex-shrink: 0;
     display: flex;
@@ -11,10 +16,10 @@
     justify-content: center;
     align-items: center;
     padding-top: 66px;
-    color: #D4D4EE;
-    > svg {
-      width: 64px;
-      height: 69px;
+    color: #d4d4ee;
+    .icon {
+      width: 100px;
+      height: 100px;
     }
   }
   > main {
