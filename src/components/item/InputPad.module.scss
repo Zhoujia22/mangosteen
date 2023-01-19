@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: start;
     color: var(--date-text);
+
     .icon {
       width: 24px;
       height: 24px;
@@ -29,19 +30,24 @@
 .buttons {
   display: grid;
   grid-template-areas:
-    "n1 n2 n3 d"
-    "n4 n5 n6 d"
-    "n7 n8 n9 s"
-    "n0 n0 nd s";
+    'n1 n2 n3 d'
+    'n4 n5 n6 d'
+    'n7 n8 n9 s'
+    'n0 n0 nd s';
   grid-auto-rows: 48px;
   grid-auto-columns: 1fr;
-  gap: 1px;
+  gap: 3px;
   flex-wrap: wrap;
   background: var(--button-border-color);
-  border-top: 1px solid var(--button-border-color);
+  border-top: 3px solid var(--button-border-color);
+  padding-bottom: 6px;
   > button {
     border: none;
+    border-radius: 6px;
     background: var(--number-button-bg);
+    &:active {
+      background: #ebedf0;
+    }
     &:nth-child(1) {
       grid-area: n1;
     }

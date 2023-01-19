@@ -6,6 +6,7 @@
   left: 0;
   width: 100%;
   height: calc(100% - var(--top-safe-area-height));
+
 }
 .overlay {
   position: fixed;
@@ -16,11 +17,12 @@
   width: 16em;
   height: calc(100% - var(--top-safe-area-height));
   color: var(--text);
+  animation: popIn 0.5s ease-out;
 }
 .email {
   width: 100%;
   overflow: hidden;
-  text-overflow:ellipsis
+  text-overflow: ellipsis;
 }
 .currentUser {
   padding: 32px 16px;
@@ -46,3 +48,13 @@
   position: relative;
   top: 2px;
 }
+
+@keyframes popIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+

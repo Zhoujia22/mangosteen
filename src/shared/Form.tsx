@@ -111,7 +111,7 @@ export const FormItem = defineComponent({
       return <div class={s.formRow}>
         <label class={s.formLabel}>
           {props.label &&
-            <span class={s.formItem_name}>{props.label}</span>
+            <div class={s.formItem_name}>{props.label}</div>
           }
           <div class={s.formItem_value}>
             {content.value}

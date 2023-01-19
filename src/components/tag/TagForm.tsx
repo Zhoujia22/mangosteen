@@ -16,7 +16,7 @@ export const TagForm = defineComponent({
     const formData = reactive<Partial<Tag>>({
       id: undefined,
       name: '',
-      sign: '',
+      sign: '😀',
       kind: route.query.kind!.toString(),
     });
     const errors = reactive<{ [k in keyof typeof formData]?: string[] }>({});
@@ -70,7 +70,7 @@ export const TagForm = defineComponent({
           error={errors['name']?.[0]}
         />
         <FormItem
-          label={'符号 ' + formData.sign}
+          label={'符号:' + formData.sign}
           type="emojiSelect"
           v-model={formData.sign}
           error={errors['sign']?.[0]}
