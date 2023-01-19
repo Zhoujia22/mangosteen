@@ -26,9 +26,13 @@ export const TagEdit = defineComponent({
       });
 
       await http
-        .delete(`/tags/${numberId}`, {
-          withItems: option?.withItems ? 'true' : 'false',
-        })
+        .delete(
+          `/tags/${numberId}`,
+          {
+            withItems: option?.withItems ? 'true' : 'false',
+          },
+          { _autoLoading: true }
+        )
         .catch(onError);
       router.back();
     };
