@@ -29,7 +29,7 @@ export const TagEdit = defineComponent({
         .delete(
           `/tags/${numberId}`,
           {
-            withItems: option?.withItems ? 'true' : 'false',
+            with_items: option?.withItems ? 'true' : 'false',
           },
           { _autoLoading: true }
         )
