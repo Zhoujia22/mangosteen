@@ -32,7 +32,7 @@ export const ItemSummary = defineComponent({
     watch(
       () => [props.startDate, props.endDate],
       () => {
-        itemStore.reset();
+        itemStore.$reset();
         itemStore.fetchItems(props.startDate, props.endDate);
       }
     );
@@ -116,7 +116,7 @@ export const ItemSummary = defineComponent({
               {itemStore.hasMore ? (
                 <Button
                   onClick={() =>
-                    itemStore.fetchItems(props.startDate, props.endDate)
+                    itemStore.fetchNextPage(props.startDate, props.endDate)
                   }
                 >
                   加载更多

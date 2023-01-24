@@ -8,8 +8,9 @@ type State = {
 };
 
 type Actions = {
+  _fetch: (firstPage: boolean, startDate?: string, endDate?: string) => void;
   fetchItems: (startDate?: string, endDate?: string) => void;
-  reset: () => void;
+  fetchNextPage: (startDate?: string, endDate?: string) => void;
 };
 
 export const useItemStore = (id: string | string[]) =>
@@ -22,10 +23,7 @@ export const useItemStore = (id: string | string[]) =>
         page: 0,
       }),
       actions: {
-        reset() {
-          (this.items = []), (this.hasMore = false), (this.page = 0);
-        },
-        async fetchItems(startDate, endDate) {
+        async _fetch(firstPage, startDate, endDate) {
           if (!startDate || !endDate) {
             return;
           }
@@ -34,15 +32,28 @@ export const useItemStore = (id: string | string[]) =>
             {
               happen_after: startDate,
               happen_before: endDate,
-              page: this.page + 1,
+              page: firstPage ? 1 : this.page + 1,
             },
-            { _mock: 'itemIndex' }
+            {
+              _mock: 'itemIndex',
+              _autoLoading: true,
+            }
           );
           const { resources, pager } = response.data;
-          this.items?.push(...resources);
+          if (firstPage) {
+            this.items = resources;
+          } else {
+            this.items.push(...resources);
+          }
           this.hasMore =
             (pager.page - 1) * pager.per_page + resources.length < pager.count;
           this.page += 1;
+        },
+        async fetchNextPage(startDate, endDate) {
+          this._fetch(false, startDate, endDate);
+        },
+        async fetchItems(startDate, endDate) {
+          this._fetch(true, startDate, endDate);
         },
       },
     }
